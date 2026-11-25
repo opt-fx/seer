@@ -17,7 +17,7 @@ The whole app is one web page: no account, no server, and nothing is uploaded. Y
 
 ## Install it as an app
 
-Seer can be installed so it opens from the Dock or Start menu in its own window and works without a connection. In Chrome or Edge, click **Install app** beside the name at the top of the page, or the install icon at the right of the address bar. Updates arrive automatically the next time you open it while online, with a one-line note at the top of the page. To send someone straight to the install offer, link to [opt-fx.com/seer/#install](https://opt-fx.com/seer/#install).
+Seer can be installed so it opens from the Dock or Start menu in its own window and works without a connection. In Chrome or Edge, click **Install app** beside the name at the top of the page, or the install icon at the right of the address bar. It opens instantly from the copy on your computer and checks for an update in the background, so a new version appears the next time you open it, with a one-line note at the top of the page. To send someone straight to the install offer, link to [opt-fx.com/seer/#install](https://opt-fx.com/seer/#install).
 
 ## Back up your Library
 
