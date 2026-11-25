@@ -2,10 +2,10 @@
 // Scope is this app's own folder (/seer/), so it never touches the other OPT apps on the same site.
 // The page is fetched from the network first, so online users always get the latest build; the cached copy is the
 // offline fallback. Cache names start with "seer-" and only those are ever deleted.
-const VERSION = '13';                 // keep in step with the build number in index.html
+const VERSION = '14';                 // keep in step with the build number in index.html
 const CACHE = 'seer-b' + VERSION, FONTS = 'seer-fonts';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png',
-              './icons/icon-maskable-512.png', './icons/apple-touch-icon.png', './icons/icon.svg'];
+              './icons/icon-maskable-512.png', './icons/apple-touch-icon.png', './icons/icon.svg', './fonts/Michroma-Regular.ttf'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));

@@ -136,3 +136,5 @@ It's a single HTML file with no dependencies. Open it in Chrome, or host it anyw
 ## Licence
 
 Released under the MIT licence (see the LICENSE file). Made by OPT.
+
+The Seer name is set in Michroma by Vernon Adams, used under the SIL Open Font License.

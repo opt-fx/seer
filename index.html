@@ -22,7 +22,9 @@
     .cheek:last-child { border-radius:0 10px 10px 0; }
     .panel { flex:1; min-width:0; padding:26px 30px 30px; background:#1b1a18; border-top:2px solid #0a0908; border-bottom:2px solid #0a0908; }
     .masthead { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:16px; padding-bottom:18px; }
+    @font-face { font-family:'Michroma'; src:url('fonts/Michroma-Regular.ttf') format('truetype'); font-display:swap; }
     h1 { margin:0; font-size:34px; font-weight:400; letter-spacing:.02em; line-height:1.1; }
+    .masthead h1 { font-family:'Michroma','Helvetica Neue',Helvetica,Arial,sans-serif; letter-spacing:.06em; }
     .masthead p { margin:10px 0 0; color:var(--amber); font-size:14px; }
     .ports { display:flex; flex-wrap:wrap; gap:12px; }
     .toolbtns { display:flex; gap:6px; align-self:flex-start; margin-left:auto; flex:none; }
@@ -870,7 +872,7 @@
       <p>Works in Chrome and Edge. Safari and Firefox don't support Web MIDI, so they can't connect to a synth.</p>
       <div class="footrow">
       <p>Unofficial tool, not affiliated with or endorsed by Sequential. Prophet is a trademark of Sequential, LLC. Controller numbers come from Sequential's published Prophet-5 MIDI Implementation.</p>
-      <p class="credit"><a class="kofi" href="https://ko-fi.com/optfx">Support OPT on Ko-fi</a><span class="sep">·</span>Designed by OPT <span class="ver" title="Build 13">v2.0</span>
+      <p class="credit"><a class="kofi" href="https://ko-fi.com/optfx">Support OPT on Ko-fi</a><span class="sep">·</span>Designed by OPT <span class="ver" title="Build 14">v2.0</span>
         <svg viewBox="0 0 400 400" role="img" aria-label="OPT logo: a striped sun">
           <defs><mask id="sunmask"><rect width="400" height="400" fill="#fff"/><rect y="224" width="400" height="8"/><rect y="262" width="400" height="13"/><rect y="302" width="400" height="18"/><rect y="344" width="400" height="24"/></mask></defs>
           <circle cx="200" cy="200" r="196" fill="#FF8A1F" mask="url(#sunmask)"/>
@@ -3375,7 +3377,7 @@ document.addEventListener("DOMContentLoaded", () => { try { showProgTag(); } cat
 </script>
 <script>
 // ---------- App: offline use, install offer, window size, one-off notices ----------
-const BUILD = '13', VERSION_LABEL = 'v2.0';
+const BUILD = '14', VERSION_LABEL = 'v2.0';
 try {
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost') && !/claude\.ai$/.test(location.hostname))
     navigator.serviceWorker.register('sw.js').catch(() => {});
