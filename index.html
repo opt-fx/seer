@@ -3,8 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rev 4 Patch Engine</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 400%22%3E%3Cdefs%3E%3Cmask id=%22sunmask%22%3E%3Crect width=%22400%22 height=%22400%22 fill=%22%23fff%22/%3E%3Crect y=%22224%22 width=%22400%22 height=%228%22/%3E%3Crect y=%22262%22 width=%22400%22 height=%2213%22/%3E%3Crect y=%22302%22 width=%22400%22 height=%2218%22/%3E%3Crect y=%22344%22 width=%22400%22 height=%2224%22/%3E%3C/mask%3E%3C/defs%3E%3Ccircle cx=%22200%22 cy=%22200%22 r=%22196%22 fill=%22%23FF8A1F%22 mask=%22url%28%23sunmask%29%22/%3E%3C/svg%3E">
+<title>Seer · Prophet-5 and Prophet-10 Rev 4 editor and librarian</title>
+<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0d0b0a">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="Seer">
+<script>/* read before the app writes its own settings: someone who used Rev 4 Patch Engine on this site and hasn't opened Seer yet */ try { window.seerFromRev4 = !localStorage.getItem('seer_build') && !!localStorage.getItem('p5_model'); } catch (e) {}</script>
 <style>
     :root { --amber:#e8a33d; --cream:#ece6d6; --ink:#b9b3a5; --panel:#1a1918; --line:#363330; --led:#ff4a2b; }
     * { box-sizing:border-box; }
@@ -295,6 +300,17 @@
     .foot .credit { display:flex; align-items:center; gap:7px; margin:0 0 6px; flex:none; font-size:11px; letter-spacing:.06em; color:#8b8578; }
     .foot .credit .ver { opacity:.6; }
     .foot .credit svg { width:18px; height:18px; flex:none; }
+    .foot .credit .kofi { color:#d9925a; text-decoration:none; }
+    .foot .credit .kofi:hover { color:#ffa04a; text-decoration:underline; }
+    .foot .credit .sep { opacity:.5; }
+    .btn.sm { padding:3px 9px; font-size:11px; margin-left:10px; vertical-align:1px; letter-spacing:.04em; }
+    #installBtn { display:none; }
+    #installBtn.show { display:inline-block; }
+    .notice { display:none; align-items:center; gap:12px; max-width:1200px; margin:0 auto 14px; background:#211d17; border:1px solid #4a3f2c; border-radius:8px; padding:10px 14px; font-size:13px; color:var(--cream); }
+    .notice.show { display:flex; }
+    .notice .msg { flex:1; }
+    .notice .msg b { color:var(--amber); font-weight:700; }
+    .notice .btn { padding:6px 12px; font-size:12px; }
 
     /* ---- compact layout: on screens wide enough, fit the whole editor on one screen ---- */
     .midbar { display:flex; flex-direction:column; }
@@ -694,6 +710,7 @@
   </style>
 </head>
 <body>
+<div class="notice" id="notice" role="status"><div class="msg" id="noticeMsg"></div><button class="btn" id="noticeGo" type="button"></button><button class="btn" id="noticeNo" type="button">Not now</button></div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><radialGradient id="kcap" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#4a4a4a"/><stop offset="1" stop-color="#0e0e0e"/></radialGradient></defs></svg>
 <div class="synth">
   <div class="cheek"></div>
@@ -701,8 +718,8 @@
     <div id="topstick">
     <header class="masthead">
       <div>
-        <h1>Rev 4 Patch Engine</h1>
-        
+        <h1>Seer</h1>
+        <p>Prophet-5 · Prophet-10 Rev 4 <button class="btn sm" id="installBtn" type="button" title="Install Seer as an app: its own window and Dock icon, and it works offline">Install app</button></p>
       </div>
       
       <details id="activity" class="activity"><summary>Activity<i class="dot"></i></summary><div class="actbody"><div id="status">Initializing Web MIDI...</div>
@@ -853,7 +870,7 @@
       <p>Works in Chrome and Edge. Safari and Firefox don't support Web MIDI, so they can't connect to a synth.</p>
       <div class="footrow">
       <p>Unofficial tool, not affiliated with or endorsed by Sequential. Prophet is a trademark of Sequential, LLC. Controller numbers come from Sequential's published Prophet-5 MIDI Implementation.</p>
-      <p class="credit">Designed by OPT <span class="ver" title="Build 12">v1.2</span>
+      <p class="credit"><a class="kofi" href="https://ko-fi.com/optfx">Support OPT on Ko-fi</a><span class="sep">·</span>Designed by OPT <span class="ver" title="Build 13">v2.0</span>
         <svg viewBox="0 0 400 400" role="img" aria-label="OPT logo: a striped sun">
           <defs><mask id="sunmask"><rect width="400" height="400" fill="#fff"/><rect y="224" width="400" height="8"/><rect y="262" width="400" height="13"/><rect y="302" width="400" height="18"/><rect y="344" width="400" height="24"/></mask></defs>
           <circle cx="200" cy="200" r="196" fill="#FF8A1F" mask="url(#sunmask)"/>
@@ -1826,10 +1843,12 @@ function libExport() {
   if (!lib.length) return setStatus('The library is empty, so there is nothing to export.');
   const data = { format: 'rev4-patch-engine-library', version: 1, exported: new Date().toISOString(), patches: lib };
   const url = URL.createObjectURL(new Blob([JSON.stringify(data)], { type: 'application/json' }));
-  const a = el('a', { href: url, download: `rev4-library-${new Date().toISOString().slice(0, 10)}.json` });
+  const a = el('a', { href: url, download: `seer-library-${new Date().toISOString().slice(0, 10)}.json` });
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   URL.revokeObjectURL(url);
   setStatus(`Exported ${lib.length} patches.`);
+  try { localStorage.setItem('seer_lastexport', String(Date.now())); localStorage.removeItem('seer_later'); } catch (e) {}
+  noticeHide('backup');
 }
 function cleanEntry(o, source) {
   if (!o || typeof o !== 'object') return null;
@@ -3352,6 +3371,106 @@ document.addEventListener("DOMContentLoaded", () => { try { showProgTag(); } cat
   });
   function sync() { segs.forEach(([sel, seg]) => seg.querySelectorAll('button').forEach(b => { b.classList.toggle('on', b.dataset.v === sel.value); b.disabled = sel.disabled; })); }
   sync(); setInterval(sync, 250);     // catches values the app sets itself (loading a patch, Mutate picking an interval, saved settings)
+})();
+</script>
+<script>
+// ---------- App: offline use, install offer, window size, one-off notices ----------
+const BUILD = '13', VERSION_LABEL = 'v2.0';
+try {
+  if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost') && !/claude\.ai$/.test(location.hostname))
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+} catch (e) {}
+
+// One notice bar at the top of the page, used for the install offer, the update note and the backup reminder.
+let noticeKind = '';
+function noticeShow(kind, html, goLabel, go, no) {
+  const bar = document.getElementById('notice'), goBtn = document.getElementById('noticeGo'), noBtn = document.getElementById('noticeNo');
+  noticeKind = kind;
+  document.getElementById('noticeMsg').innerHTML = html;
+  goBtn.textContent = goLabel || ''; goBtn.hidden = !goLabel; goBtn.onclick = go || null;
+  noBtn.textContent = goLabel ? 'Not now' : 'OK';
+  noBtn.onclick = () => { if (no) no(); noticeHide(kind); };
+  bar.classList.add('show');
+}
+function noticeHide(kind) { if (!kind || kind === noticeKind) { document.getElementById('notice').classList.remove('show'); noticeKind = ''; } }
+const noticeFree = () => !noticeKind;
+
+(function () {
+  const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+  const ua = navigator.userAgent;
+  const safari = /Safari\//.test(ua) && !/Chrome|Chromium|Edg\//.test(ua);
+  const firefox = /Firefox\//.test(ua);
+  const btn = document.getElementById('installBtn');
+  const safariHint = 'In Safari, choose File &gt; Add to Dock.';
+  const wanted = location.hash === '#install' && !standalone;
+  let deferred = null;
+  const intro = '<b>Seer works as an app on your computer.</b> Its own window and Dock icon, and it opens without a connection.';
+  const install = async () => {
+    if (deferred) {
+      deferred.prompt();
+      const { outcome } = await deferred.userChoice;
+      deferred = null; btn.classList.remove('show');
+      if (outcome === 'accepted') noticeHide('install');
+    } else if (safari) {
+      noticeShow('install', intro + ' ' + safariHint);
+    }
+  };
+  btn.addEventListener('click', install);
+  const dropHash = () => { if (location.hash === '#install') history.replaceState(null, '', location.pathname + location.search); };
+  addEventListener('beforeinstallprompt', e => {
+    e.preventDefault(); deferred = e;
+    btn.classList.add('show');
+    if (wanted) noticeShow('install', intro, 'Install app', install, dropHash);
+  });
+  addEventListener('appinstalled', () => { btn.classList.remove('show'); noticeHide('install'); setStatus('Installed. Seer now opens in its own window.'); });
+  if (!standalone && safari) {
+    btn.classList.add('show');
+    if (wanted) noticeShow('install', intro + ' ' + safariHint, '', null, dropHash);
+  }
+  if (wanted && !safari) setTimeout(() => {
+    if (deferred || noticeKind === 'install') return;
+    noticeShow('install', firefox
+      ? '<b>Firefox can’t install apps, or connect to a synth.</b> Open this page in Chrome or Edge.'
+      : '<b>Seer works as an app.</b> If it’s already installed, open it from your Dock or Launchpad. Otherwise use the install icon at the right of the address bar.', '', null, dropHash);
+  }, 2500);
+
+  // First launch of the installed app: size the window to the page (1440 wide), as tall as the screen allows.
+  try {
+    if (standalone && !localStorage.getItem('seer_window_sized')) {
+      localStorage.setItem('seer_window_sized', '1');
+      addEventListener('load', () => setTimeout(() => {
+        const frameW = outerWidth - innerWidth, frameH = outerHeight - innerHeight;
+        const w = Math.min(screen.availWidth, 1460 + frameW);
+        const h = Math.min(screen.availHeight, Math.max(outerHeight, document.documentElement.scrollHeight + frameH));
+        if (Math.abs(w - outerWidth) > 10 || h > outerHeight + 10) resizeTo(w, h);
+      }, 100));
+    }
+  } catch (e) {}
+
+  // Update note (once per new build), or a welcome for people arriving from Rev 4 Patch Engine.
+  try {
+    const seen = localStorage.getItem('seer_build');
+    const fromRev4 = !seen && window.seerFromRev4;
+    localStorage.setItem('seer_build', BUILD);
+    if (!wanted && noticeFree()) {
+      if (fromRev4) noticeShow('update', '<b>Rev 4 Patch Engine is now Seer.</b> Your Library and settings came with you. New: install it as an app, and a reminder to back up your Library.');
+      else if (seen && seen !== BUILD) noticeShow('update', `<b>Updated to ${VERSION_LABEL}</b> (build ${BUILD}).`);
+    }
+  } catch (e) {}
+
+  // Backup reminder: the Library lives only in this browser, so nudge an export if there hasn't been one for 30 days.
+  const DAY = 864e5;
+  function backupCheck() {
+    try {
+      if (!lib.length || !noticeFree()) return;
+      const last = +localStorage.getItem('seer_lastexport') || 0, later = +localStorage.getItem('seer_later') || 0;
+      if (Date.now() - last < 30 * DAY || Date.now() - later < 7 * DAY) return;
+      noticeShow('backup', `<b>Back up your Library.</b> Your ${lib.length} patch${lib.length === 1 ? ' is' : 'es are'} stored only in this browser. Export a copy now and then so they’re safe.`,
+        'Export library', () => libExport(), () => { try { localStorage.setItem('seer_later', String(Date.now())); } catch (e) {} });
+    } catch (e) {}
+  }
+  setTimeout(backupCheck, 4000);
+  document.getElementById('noticeNo').addEventListener('click', () => setTimeout(backupCheck, 1500));
 })();
 </script>
 </body>

@@ -1,19 +1,27 @@
-# Rev 4 Patch Engine for Prophet-5 and Prophet-10
+# Seer: patch editor and librarian for the Prophet-5 and Prophet-10 (Rev 4)
 
 ![Screenshot](screenshot1.png?v=24)
 ![Screenshot](screenshot2.png?v=24)
 
 A free, browser-based random patch generator, editor and librarian for the Sequential Prophet-5 and Prophet-10 (Rev 4). Generate a patch, nudge it with Mutate, tweak any control, read the patch on the synth into the app, save patches back to your synth, and keep a searchable library.
 
-**Try it:** https://opt-fx.github.io/rev4-patch-engine/
+**Use it now:** https://opt-fx.com/seer/
+
+Seer was called Rev 4 Patch Engine until version 2.0. If you used it at opt-fx.com, your Library and settings carry straight over.
 
 **Unofficial tool. Not affiliated with or endorsed by Sequential. Prophet is a trademark of Sequential, LLC.**
 
 ## Just a web page
 
-The whole app is one HTML file: nothing to install, no account, no server, and nothing is uploaded. Your browser talks to your synth directly. To use it offline, download `index.html` from GitHub (open it, then press the Download raw file button) and open it in Chrome or Edge.
+The whole app is one web page: no account, no server, and nothing is uploaded. Your browser talks to your synth directly.
 
-Your Library is stored in that browser on that computer, so use **Export library** now and then as a backup.
+## Install it as an app
+
+Seer can be installed so it opens from the Dock or Start menu in its own window and works without a connection. In Chrome or Edge, click **Install app** beside the name at the top of the page, or the install icon at the right of the address bar. Updates arrive automatically the next time you open it while online, with a one-line note at the top of the page. To send someone straight to the install offer, link to [opt-fx.com/seer/#install](https://opt-fx.com/seer/#install).
+
+## Back up your Library
+
+Your Library is stored in the browser on that computer, and only there. Use **Export library** now and then to keep a copy; Seer reminds you if you haven't exported for 30 days. A library file can be imported again in any browser.
 
 ## What you need
 
