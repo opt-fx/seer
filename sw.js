@@ -2,7 +2,7 @@
 // Scope is this app's own folder (/seer/), so it never touches the other OPT apps on the same site.
 // The page opens from the saved copy straight away and the latest build is fetched in the background, so a new
 // release shows on the launch after it is published. Cache names start with "seer-" and only those are ever deleted.
-const VERSION = '24';                 // keep in step with the build number in index.html
+const VERSION = '25';                 // keep in step with the build number in index.html
 const CACHE = 'seer-b' + VERSION, FONTS = 'seer-fonts';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png',
               './icons/icon-maskable-512.png', './icons/apple-touch-icon.png', './icons/icon.svg', './fonts/Michroma-Regular.ttf'];
