@@ -6,6 +6,7 @@
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
+  "related_applications": [{ "platform": "webapp", "url": "https://opt-fx.com/seer/manifest.webmanifest" }],
   "background_color": "#0d0b0a",
   "theme_color": "#0d0b0a",
   "icons": [

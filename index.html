@@ -6,6 +6,7 @@
 <title>Seer · Prophet-5 and Prophet-10 Rev 4 editor and librarian</title>
 <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
 <link rel="manifest" href="manifest.webmanifest">
+<script>/* catch Chrome's install offer as early as possible: it can arrive before the rest of the page has loaded */ try { addEventListener('beforeinstallprompt', e => { e.preventDefault(); window.earlyInstall = e; }); } catch (e) {}</script>
 <meta name="theme-color" content="#0d0b0a">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Seer">
@@ -872,7 +873,7 @@
       <p>Works in Chrome and Edge. Safari and Firefox don't support Web MIDI, so they can't connect to a synth.</p>
       <div class="footrow">
       <p>Unofficial tool, not affiliated with or endorsed by Sequential. Prophet is a trademark of Sequential, LLC. Controller numbers come from Sequential's published Prophet-5 MIDI Implementation.</p>
-      <p class="credit"><a class="kofi" href="https://ko-fi.com/optfx">Support OPT on Ko-fi</a><span class="sep">·</span>Designed by OPT <span class="ver" title="Build 18">v2.0</span>
+      <p class="credit"><a class="kofi" href="https://ko-fi.com/optfx">Support OPT on Ko-fi</a><span class="sep">·</span>Designed by OPT <span class="ver" title="Build 19">v2.0</span>
         <svg viewBox="0 0 400 400" role="img" aria-label="OPT logo: a striped sun">
           <defs><mask id="sunmask"><rect width="400" height="400" fill="#fff"/><rect y="224" width="400" height="8"/><rect y="262" width="400" height="13"/><rect y="302" width="400" height="18"/><rect y="344" width="400" height="24"/></mask></defs>
           <circle cx="200" cy="200" r="196" fill="#FF8A1F" mask="url(#sunmask)"/>
@@ -3377,7 +3378,7 @@ document.addEventListener("DOMContentLoaded", () => { try { showProgTag(); } cat
 </script>
 <script>
 // ---------- App: offline use, install offer, window size, one-off notices ----------
-const BUILD = '18', VERSION_LABEL = 'v2.0';
+const BUILD = '19', VERSION_LABEL = 'v2.0';
 try {
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost') && !/claude\.ai$/.test(location.hostname))
     navigator.serviceWorker.register('sw.js').catch(() => {});
@@ -3409,7 +3410,7 @@ const noticeFree = () => !noticeKind;
   const intro = '<b>Seer works as an app on your computer.</b> Its own window and Dock icon, and it opens without a connection.';
   const install = async () => {
     if (deferred) {
-      deferred.prompt();
+      deferred.prompt(); window.earlyInstall = null;
       const { outcome } = await deferred.userChoice;
       deferred = null; btn.classList.remove('show');
       if (outcome === 'accepted') noticeHide('install');
@@ -3419,18 +3420,24 @@ const noticeFree = () => !noticeKind;
   };
   btn.addEventListener('click', install);
   const dropHash = () => { if (location.hash === '#install') history.replaceState(null, '', location.pathname + location.search); };
-  addEventListener('beforeinstallprompt', e => {
-    e.preventDefault(); deferred = e;
+  const offer = e => {
+    deferred = e;
     btn.classList.add('show');
     if (wanted) noticeShow('install', intro, 'Install app', install, dropHash);
-  });
+  };
+  addEventListener('beforeinstallprompt', e => { e.preventDefault(); offer(e); });
+  if (window.earlyInstall) offer(window.earlyInstall);
   addEventListener('appinstalled', () => { btn.classList.remove('show'); noticeHide('install'); setStatus('Installed. Seer now opens in its own window.'); });
   if (!standalone && safari) {
     btn.classList.add('show');
     if (wanted) noticeShow('install', intro + ' ' + safariHint, '', null, dropHash);
   }
-  if (wanted && !safari) setTimeout(() => {
+  if (wanted && !safari) setTimeout(async () => {
     if (deferred || noticeKind === 'install') return;
+    let installed = false;                       // Chrome can say whether this app is already installed here
+    try { installed = !!(navigator.getInstalledRelatedApps && (await navigator.getInstalledRelatedApps()).length); } catch (e) {}
+    if (deferred || noticeKind === 'install') return;
+    if (installed) return noticeShow('install', '<b>Seer is already installed on this computer.</b> Open it from your Dock, Launchpad or Start menu.', '', null, dropHash);
     noticeShow('install', firefox
       ? '<b>Firefox can’t install apps, or connect to a synth.</b> Open this page in Chrome or Edge.'
       : '<b>Seer works as an app.</b> If it’s already installed, open it from your Dock or Launchpad. Otherwise use the install icon at the right of the address bar.', '', null, dropHash);
