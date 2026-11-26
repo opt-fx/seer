@@ -1,8 +1,5 @@
 # Seer: patch editor and librarian for the Prophet-5 and Prophet-10 (Rev 4)
 
-![Screenshot](screenshot1.png?v=24)
-![Screenshot](screenshot2.png?v=24)
-
 A free, browser-based random patch generator, editor and librarian for the Sequential Prophet-5 and Prophet-10 (Rev 4). Generate a patch, nudge it with Mutate, tweak any control, read the patch on the synth into the app, save patches back to your synth, and keep a searchable library.
 
 **Use it now:** https://opt-fx.com/seer/
