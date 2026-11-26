@@ -710,7 +710,10 @@
     #library .capstat { margin-top:6px; gap:10px; } #library .capstat:not(:has(progress:not([hidden]))):not(:has(#cap-status:not(:empty))) { display:none; }
     #library .capstat progress { flex:1; height:6px; max-width:320px; }
     #library #cap-status { font-size:11.5px; }
-  </style>
+  
+/* home link (the sun logo) in the footer */
+a.homelogo { display:inline-flex; line-height:0; } a.homelogo:hover { opacity:.8; }
+</style>
 </head>
 <body>
 <div class="notice" id="notice" role="status"><div class="msg" id="noticeMsg"></div><button class="btn" id="noticeGo" type="button"></button><button class="btn" id="noticeNo" type="button">Not now</button></div>
@@ -873,11 +876,11 @@
       <p>Works in Chrome and Edge. Safari and Firefox don't support Web MIDI, so they can't connect to a synth.</p>
       <div class="footrow">
       <p>Unofficial tool, not affiliated with or endorsed by Sequential. Prophet is a trademark of Sequential, LLC. Controller numbers come from Sequential's published Prophet-5 MIDI Implementation.</p>
-      <p class="credit"><a class="kofi" href="https://ko-fi.com/optfx">Support OPT-FX on Ko-fi</a><span class="sep">·</span>Made by OPT <span class="ver" title="Build 28">v2.0</span>
-        <svg viewBox="0 0 400 400" role="img" aria-label="OPT logo: a striped sun">
+      <p class="credit"><a class="kofi" href="https://ko-fi.com/optfx">Support OPT-FX on Ko-fi</a><span class="sep">·</span><a class="kofi home" href="https://opt-fx.com/" target="_blank" rel="noopener" title="All the OPT-FX apps">More apps at opt-fx.com</a><span class="sep">·</span>Made by OPT <span class="ver" title="Build 29">v2.0</span>
+        <a class="homelogo" href="https://opt-fx.com/" target="_blank" rel="noopener" title="OPT-FX home" aria-label="OPT-FX home"><svg viewBox="0 0 400 400" role="img" aria-label="OPT logo: a striped sun">
           <defs><mask id="sunmask"><rect width="400" height="400" fill="#fff"/><rect y="224" width="400" height="8"/><rect y="262" width="400" height="13"/><rect y="302" width="400" height="18"/><rect y="344" width="400" height="24"/></mask></defs>
           <circle cx="200" cy="200" r="196" fill="#FF8A1F" mask="url(#sunmask)"/>
-        </svg>
+        </svg></a>
       </p>
       </div>
     </footer>
@@ -3378,7 +3381,7 @@ document.addEventListener("DOMContentLoaded", () => { try { showProgTag(); } cat
 </script>
 <script>
 // ---------- App: offline use, install offer, window size, one-off notices ----------
-const BUILD = '28', VERSION_LABEL = 'v2.0';
+const BUILD = '29', VERSION_LABEL = 'v2.0';
 try {
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost') && !/claude\.ai$/.test(location.hostname))
     navigator.serviceWorker.register('sw.js').catch(() => {});
